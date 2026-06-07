@@ -20,25 +20,38 @@ public class DinamicQueue<T> implements Queue<T> {
         }
     }
 
-    private Node<T> date;
-    private Node<T> next;
-
     @Override
     public void push(T element) {
 
-        tail.next = new Node<>(element);
-        tail = tail.next;
+        Node<T> newNode = new Node<>(element);
+
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+
         size++;
     }
 
     @Override
     public T pop() {
+
         if (isEmpty()) {
             throw new IllegalStateException("Fila vazia");
         }
+
         T data = head.data;
+
         head = head.next;
         size--;
+
+        if (head == null) {
+            tail = null;
+        }
+
         return data;
     }
 
